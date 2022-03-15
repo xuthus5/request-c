@@ -14,3 +14,7 @@ revision = head
 [provide]
 request-c = request_c_dep
 ```
+
+## test
+
+已编写 request_test.c 文件供测试x调试使用，也是一个使用样例

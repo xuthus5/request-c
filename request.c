@@ -47,6 +47,7 @@ char *get_response(char *url, struct curl_slist *headers) {
             exit(res);
         }
         curl_easy_cleanup(curl);
+        printf("[DEBUG]\nurl: %s\nmethod: %s\nbody: %s\n", url, "GET", resp.data);
         return resp.data;
     }
     return NULL;
@@ -71,7 +72,35 @@ char *post_response(char *url, char *payload, struct curl_slist *headers) {
         if (res != 0) {
             exit(res);
         }
+        printf("[DEBUG]\nurl: %s\nmethod: %s\nbody: %s\n", url, "POST", resp.data);
         curl_easy_cleanup(curl);
+        return resp.data;
+    }
+    return NULL;
+}
+
+char *post_form_response( char *url, struct curl_httppost *payload, struct curl_slist *headers) {
+    CURL *curl;
+    memory_response resp;
+    init_memory_response(&resp);
+    curl = curl_easy_init();
+    if (curl) {
+        curl_easy_setopt(curl, CURLOPT_URL, url);
+        curl_easy_setopt(curl, CURLOPT_HTTPPOST, 1);
+        curl_easy_setopt(curl, CURLOPT_TIMEOUT, 3);
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, memory_response_write_func);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &resp);
+        curl_easy_setopt(curl, CURLOPT_HTTPPOST, payload);
+        if (headers != NULL) {
+            curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+        }
+        CURLcode res = curl_easy_perform(curl);
+        if (res != 0) {
+            exit(res);
+        }
+        printf("[DEBUG]\nurl: %s\nmethod: %s\nbody: %s\n", url, "POST_FORM", resp.data);
+        curl_easy_cleanup(curl);
+        curl_formfree(payload);
         return resp.data;
     }
     return NULL;
