@@ -24,7 +24,7 @@ sources = [
 
 libcurl_dep = dependency('libcurl')
 
-project_target = shared_library(
+project_target = static_library(
   meson.project_name(),
   sources,
   install : true,
