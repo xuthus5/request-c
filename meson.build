@@ -42,7 +42,7 @@ set_variable(meson.project_name() + '_dep', project_dep)
 install_headers(sources_headers, subdir: meson.project_name())
 
 pkgconfig = import('pkgconfig')
-pkgconfig.generate(name : meson.project_name(),
+pkgconfig.generate(
   description: 'A request library implementation in C',
   version: meson.project_version(),
   filebase: meson.project_name(),
