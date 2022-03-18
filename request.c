@@ -47,7 +47,6 @@ char *get_response(char *url, struct curl_slist *headers) {
             exit(res);
         }
         curl_easy_cleanup(curl);
-        curl_slist_free_all(headers);
         return resp.data;
     }
     return NULL;
@@ -73,7 +72,6 @@ char *post_response(char *url, char *payload, struct curl_slist *headers) {
             exit(res);
         }
         curl_easy_cleanup(curl);
-        curl_slist_free_all(headers);
         return resp.data;
     }
     return NULL;
@@ -99,8 +97,6 @@ char *post_form_response( char *url, struct curl_httppost *payload, struct curl_
             exit(res);
         }
         curl_easy_cleanup(curl);
-        curl_formfree(payload);
-        curl_slist_free_all(headers);
         return resp.data;
     }
     return NULL;
